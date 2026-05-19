@@ -1,3 +1,7 @@
+## 0.2.2
+
+- Documentation improvements and small updates
+
 ## 0.2.1
 
 - Add screenshots for iPad, iPhone, dark theme, and landscape modes
