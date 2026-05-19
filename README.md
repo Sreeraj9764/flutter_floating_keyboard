@@ -8,7 +8,7 @@ A custom floating mini keyboard for Flutter apps. Replaces the system keyboard u
 
 | iPad | iPhone | Dark Theme | Landscape |
 |------|--------|------------|-----------|
-| ![iPad](screenshots/ipad-keyboad-center.png) | ![iPhone](screenshots/iphone-keyboard-center.png) | ![Dark](screenshots/iphone-dakmode.png) | ![Landscape](screenshots/iphone-lanscape.png) |
+| ![iPad](https://raw.githubusercontent.com/Sreeraj9764/flutter_floating_keyboard/main/screenshots/ipad-keyboad-center.png) | ![iPhone](https://raw.githubusercontent.com/Sreeraj9764/flutter_floating_keyboard/main/screenshots/iphone-keyboard-center.png) | ![Dark](https://raw.githubusercontent.com/Sreeraj9764/flutter_floating_keyboard/main/screenshots/iphone-dakmode.png) | ![Landscape](https://raw.githubusercontent.com/Sreeraj9764/flutter_floating_keyboard/main/screenshots/iphone-lanscape.png) |
 
 ## Features
 

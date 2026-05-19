@@ -1,3 +1,9 @@
+## 0.2.1
+
+- Add screenshots for iPad, iPhone, dark theme, and landscape modes
+- Update README with screenshots and improved description
+- Add `screenshots` field to pubspec for pub.dev carousel
+
 ## 0.2.0
 
 - **Breaking:** Remove fixed `minWidth: 400` constraint that caused overflow on narrow screens
