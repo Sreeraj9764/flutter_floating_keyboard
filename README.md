@@ -1,6 +1,6 @@
 # flutter_floating_keyboard
 
-A custom floating mini keyboard for Flutter tablet apps. Replaces the system keyboard using Flutter's `TextInputControl` API — works with **all** text widgets (`TextField`, `TextFormField`, `QuillEditor`, etc.) without any modification.
+A custom floating mini keyboard for Flutter apps. Replaces the system keyboard using Flutter's `TextInputControl` API — works with **all** text widgets (`TextField`, `TextFormField`, `QuillEditor`, etc.) without any modification. Responsive across phones, tablets, and desktop.
 
 [![pub package](https://img.shields.io/pub/v/flutter_floating_keyboard.svg)](https://pub.dev/packages/flutter_floating_keyboard)
 
@@ -8,12 +8,14 @@ A custom floating mini keyboard for Flutter tablet apps. Replaces the system key
 
 | iPad | iPhone | Dark Theme | Landscape |
 |------|--------|------------|-----------|
-| ![iPad](https://raw.githubusercontent.com/Sreeraj9764/flutter_floating_keyboard/main/screenshots/ipad-keyboad-center.png) | ![iPhone](https://raw.githubusercontent.com/Sreeraj9764/flutter_floating_keyboard/main/screenshots/iphone-keyboard-center.png) | ![Dark](https://raw.githubusercontent.com/Sreeraj9764/flutter_floating_keyboard/main/screenshots/iphone-dakmode.png) | ![Landscape](https://raw.githubusercontent.com/Sreeraj9764/flutter_floating_keyboard/main/screenshots/iphone-lanscape.png) |
+| ![iPad](screenshots/ipad-keyboad-center.png) | ![iPhone](screenshots/iphone-keyboard-center.png) | ![Dark](screenshots/iphone-dakmode.png) | ![Landscape](screenshots/iphone-lanscape.png) |
 
 ## Features
 
 - **Drop-in replacement** for the system keyboard — no changes needed to existing text widgets
+- **Responsive** — adapts width automatically across phones, tablets, and desktop
 - **Draggable** — reposition the keyboard anywhere on screen
+- **Safe area aware** — respects system UI (home indicator, navigation bar)
 - **QWERTY layout** with letters, numbers, and symbols modes
 - **Shift & Caps Lock** support
 - **Long-press repeat** for backspace
@@ -49,8 +51,7 @@ MaterialApp.router(
   },
 );
 
-// 4. When done, uninstall and dispose
-keyboardController.uninstall();
+// 4. When done dispose
 keyboardController.dispose();
 ```
 
