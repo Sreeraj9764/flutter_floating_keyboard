@@ -4,6 +4,12 @@ A custom floating mini keyboard for Flutter tablet apps. Replaces the system key
 
 [![pub package](https://img.shields.io/pub/v/flutter_floating_keyboard.svg)](https://pub.dev/packages/flutter_floating_keyboard)
 
+## Screenshots
+
+| iPad | iPhone | Dark Theme | Landscape |
+|------|--------|------------|-----------|
+| ![iPad](https://raw.githubusercontent.com/Sreeraj9764/flutter_floating_keyboard/main/screenshots/ipad-keyboad-center.png) | ![iPhone](https://raw.githubusercontent.com/Sreeraj9764/flutter_floating_keyboard/main/screenshots/iphone-keyboard-center.png) | ![Dark](https://raw.githubusercontent.com/Sreeraj9764/flutter_floating_keyboard/main/screenshots/iphone-dakmode.png) | ![Landscape](https://raw.githubusercontent.com/Sreeraj9764/flutter_floating_keyboard/main/screenshots/iphone-lanscape.png) |
+
 ## Features
 
 - **Drop-in replacement** for the system keyboard — no changes needed to existing text widgets
