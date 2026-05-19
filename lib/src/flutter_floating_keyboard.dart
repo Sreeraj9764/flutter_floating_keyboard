@@ -37,11 +37,10 @@ class FlutterFloatingKeyboard extends StatelessWidget {
       child: ValueListenableBuilder<Offset>(
         valueListenable: controller.position,
         builder: (context, position, _) {
-          // Default: centered horizontally, at bottom
-          // position.dx = horizontal offset from center
-          // position.dy = vertical offset from bottom
+          // Account for system bottom inset (home indicator, nav bar)
+          final bottomInset = MediaQuery.viewPaddingOf(context).bottom;
           return Positioned(
-            bottom: 8 + position.dy,
+            bottom: bottomInset + 8 + position.dy,
             left: 0,
             right: 0,
             child: Center(
@@ -68,22 +67,31 @@ class _KeyboardBody extends StatelessWidget {
     return TextFieldTapRegion(
       child: FocusScope(
         canRequestFocus: false,
-        child: Material(
-          elevation: config.elevation,
-          borderRadius: BorderRadius.circular(config.borderRadius),
-          color: config.backgroundColor,
-          child: Container(
-            width: MediaQuery.sizeOf(context).width * 0.75,
-            constraints: BoxConstraints(maxWidth: 700, minWidth: 400),
-            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (config.showDragHandle) _buildDragHandle(context),
-                _buildKeyboardRows(),
-              ],
-            ),
-          ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final availableWidth = constraints.maxWidth.isFinite
+                ? constraints.maxWidth
+                : MediaQuery.sizeOf(context).width;
+
+            final keyboardWidth = config.computeKeyboardWidth(availableWidth);
+
+            return Material(
+              elevation: config.elevation,
+              borderRadius: BorderRadius.circular(config.borderRadius),
+              color: config.backgroundColor,
+              child: Container(
+                width: keyboardWidth,
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (config.showDragHandle) _buildDragHandle(context),
+                    _buildKeyboardRows(),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ),
     );

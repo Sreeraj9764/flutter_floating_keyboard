@@ -31,7 +31,6 @@ class _ExampleAppState extends State<ExampleApp> {
 
   @override
   void dispose() {
-    _keyboardController.uninstall();
     _keyboardController.dispose();
     super.dispose();
   }

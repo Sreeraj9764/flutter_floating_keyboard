@@ -66,6 +66,29 @@ class FlutterFloatingKeyboardConfig {
   /// Border radius of the keyboard container.
   final double borderRadius;
 
+  /// Maximum keyboard width.
+  static const double maxKeyboardWidth = 700.0;
+
+  /// Computes the responsive keyboard width based on available space.
+  ///
+  /// Uses breakpoints:
+  /// - < 500dp → 95% (phones portrait)
+  /// - 500–900dp → 75% (phones landscape, small tablets)
+  /// - > 900dp → 60% (large tablets, desktop)
+  ///
+  /// Clamped to [maxKeyboardWidth].
+  double computeKeyboardWidth(double availableWidth) {
+    final double widthFraction;
+    if (availableWidth < 500) {
+      widthFraction = 0.95;
+    } else if (availableWidth < 900) {
+      widthFraction = 0.75;
+    } else {
+      widthFraction = 0.60;
+    }
+    return (availableWidth * widthFraction).clamp(0.0, maxKeyboardWidth);
+  }
+
   /// Create a copy with modified values.
   FlutterFloatingKeyboardConfig copyWith({
     double? keyboardHeight,

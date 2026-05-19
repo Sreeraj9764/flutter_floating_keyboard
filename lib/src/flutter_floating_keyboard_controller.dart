@@ -12,6 +12,10 @@ enum KeyboardMode { letters, numbers, symbols }
 /// Manages the lifecycle of the custom input control and exposes
 /// reactive state via [ValueNotifier]s that the keyboard widget listens to.
 ///
+/// Only one controller can be installed at a time. Attempting to install
+/// a second controller while another is active will throw an assertion error
+/// in debug mode.
+///
 /// Usage:
 /// ```dart
 /// final controller = FlutterFloatingKeyboardController();
@@ -22,6 +26,8 @@ enum KeyboardMode { letters, numbers, symbols }
 class FlutterFloatingKeyboardController {
   FlutterFloatingKeyboardController({FlutterFloatingKeyboardConfig? config})
     : _config = config ?? const FlutterFloatingKeyboardConfig();
+
+  static FlutterFloatingKeyboardController? _activeInstance;
 
   final FlutterFloatingKeyboardConfig _config;
 
@@ -71,10 +77,24 @@ class FlutterFloatingKeyboardController {
   double get keyboardHeight => _config.keyboardHeight;
 
   /// Install the custom input control, suppressing the system keyboard.
+  ///
+  /// Throws an [AssertionError] in debug mode if another controller is
+  /// already installed. In release mode, the previous controller is
+  /// forcefully uninstalled.
   void install() {
     if (_installed) return;
+    if (_activeInstance != null && _activeInstance != this) {
+      assert(
+        false,
+        'Another FlutterFloatingKeyboardController is already installed. '
+        'Call uninstall() on the previous controller before installing a new one.',
+      );
+      // In release mode, gracefully uninstall the previous one
+      _activeInstance!.uninstall();
+    }
     TextInput.setInputControl(_inputControl);
     _installed = true;
+    _activeInstance = this;
   }
 
   /// Uninstall the custom input control, restoring the system keyboard.
@@ -83,6 +103,9 @@ class FlutterFloatingKeyboardController {
     TextInput.restorePlatformInputControl();
     _installed = false;
     visible.value = false;
+    if (_activeInstance == this) {
+      _activeInstance = null;
+    }
   }
 
   /// Handle a key press from the keyboard UI.

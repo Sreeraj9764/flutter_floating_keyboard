@@ -57,7 +57,6 @@ class _CustomConfigExampleState extends State<CustomConfigExample> {
 
   @override
   void dispose() {
-    _controller.uninstall();
     _controller.dispose();
     super.dispose();
   }

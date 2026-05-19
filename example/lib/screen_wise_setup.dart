@@ -80,8 +80,7 @@ class _FloatingKeyboardScreenState extends State<FloatingKeyboardScreen> {
 
   @override
   void dispose() {
-    _controller.uninstall(); // Restore system keyboard when leaving
-    _controller.dispose();
+    _controller.dispose(); // Also restores system keyboard
     super.dispose();
   }
 
