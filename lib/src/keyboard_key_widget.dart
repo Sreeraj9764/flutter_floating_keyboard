@@ -48,14 +48,21 @@ class KeyboardKeyWidget extends StatefulWidget {
 class _KeyboardKeyWidgetState extends State<KeyboardKeyWidget> {
   bool _isPressed = false;
   Timer? _repeatTimer;
+  Timer? _pressHoldTimer;
+  bool _waitingForHold = false;
+
+  static const _minPressDuration = Duration(milliseconds: 80);
 
   @override
   void dispose() {
     _repeatTimer?.cancel();
+    _pressHoldTimer?.cancel();
     super.dispose();
   }
 
   void _handleTapDown(TapDownDetails details) {
+    _pressHoldTimer?.cancel();
+    _waitingForHold = false;
     setState(() => _isPressed = true);
     if (widget.config.enableHaptics) {
       HapticFeedback.lightImpact();
@@ -63,11 +70,20 @@ class _KeyboardKeyWidgetState extends State<KeyboardKeyWidget> {
   }
 
   void _handleTapUp(TapUpDetails details) {
-    setState(() => _isPressed = false);
     widget.onPressed();
+    // Hold pressed state for minimum duration so quick taps are visible
+    _waitingForHold = true;
+    _pressHoldTimer = Timer(_minPressDuration, () {
+      if (mounted && _waitingForHold) {
+        setState(() => _isPressed = false);
+        _waitingForHold = false;
+      }
+    });
   }
 
   void _handleTapCancel() {
+    _pressHoldTimer?.cancel();
+    _waitingForHold = false;
     setState(() => _isPressed = false);
     _repeatTimer?.cancel();
   }
@@ -110,8 +126,7 @@ class _KeyboardKeyWidgetState extends State<KeyboardKeyWidget> {
           onTapCancel: _handleTapCancel,
           onLongPressStart: _handleLongPressStart,
           onLongPressEnd: _handleLongPressEnd,
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 50),
+          child: Container(
             height: 42,
             decoration: BoxDecoration(
               color: _isPressed ? bgColor.withValues(alpha: 0.7) : bgColor,
