@@ -114,7 +114,7 @@ class _KeyboardKeyWidgetState extends State<KeyboardKeyWidget> {
             duration: const Duration(milliseconds: 50),
             height: 42,
             decoration: BoxDecoration(
-              color: _isPressed ? bgColor.withOpacity(0.7) : bgColor,
+              color: _isPressed ? bgColor.withValues(alpha: 0.7) : bgColor,
               borderRadius: BorderRadius.circular(
                 widget.config.keyBorderRadius,
               ),
@@ -122,7 +122,7 @@ class _KeyboardKeyWidgetState extends State<KeyboardKeyWidget> {
                   ? null
                   : [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
+                        color: Colors.black.withValues(alpha: 0.15),
                         offset: const Offset(0, 1),
                         blurRadius: 1,
                       ),

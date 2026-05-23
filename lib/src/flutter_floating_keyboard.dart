@@ -85,7 +85,8 @@ class _KeyboardBody extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    if (config.showDragHandle) _buildDragHandle(context),
+                    if (config.showDragHandle)
+                      _buildDragHandle(context, keyboardWidth),
                     _buildKeyboardRows(),
                   ],
                 ),
@@ -97,12 +98,36 @@ class _KeyboardBody extends StatelessWidget {
     );
   }
 
-  Widget _buildDragHandle(BuildContext context) {
+  Widget _buildDragHandle(BuildContext context, double keyboardWidth) {
     if (!config.enableDrag) return const SizedBox.shrink();
 
     return _EagerDragArea(
       onDragUpdate: (details) {
-        controller.onDragUpdate(Offset(details.delta.dx, -details.delta.dy));
+        final delta = Offset(details.delta.dx, -details.delta.dy);
+        if (!config.constrainDragBounds) {
+          controller.onDragUpdate(delta);
+          return;
+        }
+
+        final screenSize = MediaQuery.sizeOf(context);
+        final viewPadding = MediaQuery.viewPaddingOf(context);
+        final candidate = controller.position.value + delta;
+
+        // Horizontal: keep keyboard within screen edges
+        final maxDx = (screenSize.width - keyboardWidth) / 2;
+        final clampedDx = candidate.dx.clamp(-maxDx, maxDx);
+
+        // Vertical: keep keyboard between bottom safe area and below top safe area
+        final minDy = -(viewPadding.bottom + 8);
+        final maxDy =
+            screenSize.height -
+            config.keyboardHeight -
+            viewPadding.bottom -
+            viewPadding.top -
+            8;
+        final clampedDy = candidate.dy.clamp(minDy, maxDy);
+
+        controller.position.value = Offset(clampedDx, clampedDy);
       },
       child: Container(
         width: double.infinity,

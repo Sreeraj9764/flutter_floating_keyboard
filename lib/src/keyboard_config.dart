@@ -21,6 +21,7 @@ class FlutterFloatingKeyboardConfig {
     this.borderRadius = 12.0,
     this.widthFactor,
     this.maxKeyboardWidth = 700.0,
+    this.constrainDragBounds = true,
   });
 
   /// Total height of the keyboard widget.
@@ -77,6 +78,12 @@ class FlutterFloatingKeyboardConfig {
   /// Maximum keyboard width in logical pixels.
   final double maxKeyboardWidth;
 
+  /// Whether to constrain dragging so the keyboard stays within screen bounds.
+  ///
+  /// When `true` (default), the keyboard cannot be dragged off screen.
+  /// Set to `false` to allow unrestricted dragging.
+  final bool constrainDragBounds;
+
   /// Computes the responsive keyboard width based on available space.
   ///
   /// If [widthFactor] is set, uses that fraction directly.
@@ -119,6 +126,7 @@ class FlutterFloatingKeyboardConfig {
     double? borderRadius,
     double? widthFactor,
     double? maxKeyboardWidth,
+    bool? constrainDragBounds,
   }) {
     return FlutterFloatingKeyboardConfig(
       keyboardHeight: keyboardHeight ?? this.keyboardHeight,
@@ -138,6 +146,7 @@ class FlutterFloatingKeyboardConfig {
       borderRadius: borderRadius ?? this.borderRadius,
       widthFactor: widthFactor ?? this.widthFactor,
       maxKeyboardWidth: maxKeyboardWidth ?? this.maxKeyboardWidth,
+      constrainDragBounds: constrainDragBounds ?? this.constrainDragBounds,
     );
   }
 }
