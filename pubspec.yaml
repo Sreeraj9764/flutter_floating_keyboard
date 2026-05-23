@@ -1,6 +1,6 @@
 name: flutter_floating_keyboard
 description: A custom floating mini keyboard for Flutter apps. Replaces the system keyboard using TextInputControl API — works with all text widgets without modification. Responsive and draggable.
-version: 0.2.2
+version: 0.2.3
 homepage: https://github.com/Sreeraj9764/flutter_floating_keyboard
 repository: https://github.com/Sreeraj9764/flutter_floating_keyboard
 issue_tracker: https://github.com/Sreeraj9764/flutter_floating_keyboard/issues
@@ -35,5 +35,12 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^5.0.0
   melos: ^7.7.0
+
+melos:
+  useRootAsPackage: true
+  command:
+    version:
+      linkToCommits: true
+      workspaceChangelog: false
 
 flutter:

@@ -1,3 +1,17 @@
+## 0.2.3
+
+ - **FEAT**: enhance key press handling with improved tap and hold feedback. ([ff18798f](https://github.com/Sreeraj9764/flutter_floating_keyboard/commit/ff18798f3484f87e36f1f98dd1e2271f334cf716))
+ - **FEAT**: enhance drag functionality and configuration for floating keyboard. ([7567b20f](https://github.com/Sreeraj9764/flutter_floating_keyboard/commit/7567b20f485f8658b633f73a55594f5d5c1b72cf))
+ - **FEAT**: update package configuration and dependencies, remove unused files. ([6db85f70](https://github.com/Sreeraj9764/flutter_floating_keyboard/commit/6db85f70728e17b23bc5542d8805f370e2f20631))
+ - **FEAT**: add melos configuration for package management and scripts. ([891e9385](https://github.com/Sreeraj9764/flutter_floating_keyboard/commit/891e9385dd9488ce2e03d9db33e3c2c7ddd84787))
+ - **FEAT**: bump version to 0.2.2 and update changelog with documentation improvements. ([9739cccb](https://github.com/Sreeraj9764/flutter_floating_keyboard/commit/9739cccbe0af297a09dd8268c38dc4a37f2532ef))
+ - **FEAT**: update version to 0.2.1 and add new screenshots for improved README. ([5ee07f8f](https://github.com/Sreeraj9764/flutter_floating_keyboard/commit/5ee07f8f378e2f7b49f7f0b5754bbf5568a453fb))
+ - **FEAT**: update README and pubspec description for clarity and responsiveness. ([1de347cf](https://github.com/Sreeraj9764/flutter_floating_keyboard/commit/1de347cf41099aa02c301cf65d8370a9fea506fb))
+ - **FEAT**: update to version 0.2.0 with responsive keyboard improvements and new screenshots. ([d320dc3b](https://github.com/Sreeraj9764/flutter_floating_keyboard/commit/d320dc3be86d80dbd7e131bc0361e16db8c9fdad))
+ - **FEAT**: responsive keyboard sizing and safe area support. ([92016ded](https://github.com/Sreeraj9764/flutter_floating_keyboard/commit/92016dedf267e7c9c19c48b5824b0b16fe71d334))
+ - **FEAT**: add example setups for custom, default, global, and screen-wise keyboard configurations. ([a967ce4d](https://github.com/Sreeraj9764/flutter_floating_keyboard/commit/a967ce4df94934023af2f487355f5a12255b0c75))
+ - **FEAT**: add FlutterFloatingKeyboard package with custom input control. ([c53934df](https://github.com/Sreeraj9764/flutter_floating_keyboard/commit/c53934df3e451b1430c0dc0fc2f9050990fb02b8))
+
 ## 0.2.2
 
 - Documentation improvements and small updates
