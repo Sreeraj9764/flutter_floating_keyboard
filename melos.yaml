@@ -2,7 +2,6 @@ name: flutter_floating_keyboard
 repository: https://github.com/Sreeraj9764/flutter_floating_keyboard
 
 packages:
-  - .
   - example
 
 command:
