@@ -19,6 +19,8 @@ class FlutterFloatingKeyboardConfig {
     this.showDragHandle = true,
     this.elevation = 8.0,
     this.borderRadius = 12.0,
+    this.widthFactor,
+    this.maxKeyboardWidth = 700.0,
   });
 
   /// Total height of the keyboard widget.
@@ -66,12 +68,19 @@ class FlutterFloatingKeyboardConfig {
   /// Border radius of the keyboard container.
   final double borderRadius;
 
-  /// Maximum keyboard width.
-  static const double maxKeyboardWidth = 700.0;
+  /// Optional fixed width factor (0.0–1.0) for the keyboard.
+  ///
+  /// When set, overrides the default responsive breakpoint logic and uses
+  /// this fraction of available width instead.
+  final double? widthFactor;
+
+  /// Maximum keyboard width in logical pixels.
+  final double maxKeyboardWidth;
 
   /// Computes the responsive keyboard width based on available space.
   ///
-  /// Uses breakpoints:
+  /// If [widthFactor] is set, uses that fraction directly.
+  /// Otherwise uses breakpoints:
   /// - < 500dp → 95% (phones portrait)
   /// - 500–900dp → 75% (phones landscape, small tablets)
   /// - > 900dp → 60% (large tablets, desktop)
@@ -79,7 +88,9 @@ class FlutterFloatingKeyboardConfig {
   /// Clamped to [maxKeyboardWidth].
   double computeKeyboardWidth(double availableWidth) {
     final double widthFraction;
-    if (availableWidth < 500) {
+    if (widthFactor != null) {
+      widthFraction = widthFactor!.clamp(0.0, 1.0);
+    } else if (availableWidth < 500) {
       widthFraction = 0.95;
     } else if (availableWidth < 900) {
       widthFraction = 0.75;
@@ -106,6 +117,8 @@ class FlutterFloatingKeyboardConfig {
     bool? showDragHandle,
     double? elevation,
     double? borderRadius,
+    double? widthFactor,
+    double? maxKeyboardWidth,
   }) {
     return FlutterFloatingKeyboardConfig(
       keyboardHeight: keyboardHeight ?? this.keyboardHeight,
@@ -123,6 +136,8 @@ class FlutterFloatingKeyboardConfig {
       showDragHandle: showDragHandle ?? this.showDragHandle,
       elevation: elevation ?? this.elevation,
       borderRadius: borderRadius ?? this.borderRadius,
+      widthFactor: widthFactor ?? this.widthFactor,
+      maxKeyboardWidth: maxKeyboardWidth ?? this.maxKeyboardWidth,
     );
   }
 }

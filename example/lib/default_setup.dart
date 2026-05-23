@@ -50,9 +50,11 @@ class _DefaultSetupExampleState extends State<DefaultSetupExample> {
       controller: _controller,
       child: Scaffold(
         appBar: AppBar(title: const Text('Default Setup')),
-        body: const Padding(
+        body: Padding(
           padding: EdgeInsets.all(24),
           child: TextField(
+            maxLines: 5,
+            onTapOutside: (event) => FocusScope.of(context).unfocus(),
             decoration: InputDecoration(
               labelText: 'Tap here to open keyboard',
               border: OutlineInputBorder(),

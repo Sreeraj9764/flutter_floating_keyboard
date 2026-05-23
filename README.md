@@ -79,6 +79,8 @@ FlutterFloatingKeyboardOverlay(
     enableNumberMode: true,
     enableSymbolMode: true,
     showDragHandle: true,
+    widthFactor: 0.85,        // fixed width as fraction of available space (0.0–1.0)
+    maxKeyboardWidth: 600.0,  // upper bound in logical pixels
   ),
   child: child,
 );
@@ -102,6 +104,16 @@ FlutterFloatingKeyboardOverlay(
 ### FlutterFloatingKeyboardConfig
 
 All properties have sensible defaults. See the [Configuration](#configuration) section above for available options.
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `widthFactor` | `double?` | `null` | When set, overrides responsive breakpoints and uses this fraction (0.0–1.0) of available width |
+| `maxKeyboardWidth` | `double` | `700.0` | Maximum keyboard width in logical pixels |
+
+> **Note:** When `widthFactor` is `null` (default), the keyboard automatically adapts:  
+> - < 500dp → 95% width  
+> - 500–900dp → 75% width  
+> - \> 900dp → 60% width
 
 ## Platform Support
 
