@@ -79,22 +79,31 @@ Customize the keyboard appearance using `FlutterFloatingKeyboardConfig`:
 FlutterFloatingKeyboardOverlay(
   controller: keyboardController,
   config: FlutterFloatingKeyboardConfig(
-    backgroundColor: Color(0xF0E8E8E8),
-    keyColor: Colors.white,
-    specialKeyColor: Color(0xFFB8B8B8),
-    keyTextColor: Color(0xFF1A1A1A),
-    keyBorderRadius: 6.0,
-    keySpacing: 4.0,
-    rowSpacing: 6.0,
+    // Colors are theme-based. iOS-style light/dark presets are resolved
+    // automatically from Theme.of(context).brightness — or override:
+    theme: FlutterFloatingKeyboardTheme(
+      backgroundColor: Color(0xF2D6D9DE),
+      keyColor: Colors.white,
+      specialKeyColor: Color(0xFFADB3BF),
+      keyTextColor: Color(0xFF1C1C1E),
+    ),
+    darkTheme: FlutterFloatingKeyboardTheme.dark,
+    keyHeight: 44.0,
+    keyBorderRadius: 7.0,
+    keySpacing: 5.0,
+    rowSpacing: 7.0,
     elevation: 8.0,
-    borderRadius: 12.0,
+    borderRadius: 14.0,
     enableHaptics: true,
+    enableSound: true,         // system click sound on key press
     enableDrag: true,
     enableNumberMode: true,
     enableSymbolMode: true,
     showDragHandle: true,
-    widthFactor: 0.85,        // fixed width as fraction of available space (0.0–1.0)
-    maxKeyboardWidth: 600.0,  // upper bound in logical pixels
+    showKeyPreview: null,      // null = adaptive (bubble on phones, off on tablets)
+    animateShowHide: true,     // slide/fade in and out
+    widthFactor: 0.85,         // fixed width as fraction of available space (0.0–1.0)
+    maxKeyboardWidth: 600.0,   // upper bound in logical pixels
   ),
   child: child,
 );

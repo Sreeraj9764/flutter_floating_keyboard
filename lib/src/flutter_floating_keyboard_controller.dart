@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_floating_keyboard/src/flutter_floating_keyboard_input_control.dart';
 
 import 'keyboard_config.dart';
+import 'keyboard_layout.dart';
 
-/// The mode of the keyboard layout.
-enum KeyboardMode { letters, numbers, symbols }
+export 'keyboard_layout.dart' show KeyboardMode;
 
 /// Public controller for the FlutterFloatingKeyboard package.
 ///
@@ -58,6 +58,10 @@ class FlutterFloatingKeyboardController {
   /// The current input type from the active text field.
   final ValueNotifier<TextInputType?> currentInputType =
       ValueNotifier<TextInputType?>(null);
+
+  /// The current input action from the active text field (done, next, go...).
+  final ValueNotifier<TextInputAction?> currentInputAction =
+      ValueNotifier<TextInputAction?>(null);
 
   /// Current position offset for dragging.
   final ValueNotifier<Offset> position = ValueNotifier<Offset>(Offset.zero);
@@ -125,8 +129,20 @@ class FlutterFloatingKeyboardController {
   }
 
   /// Handle enter/return press.
+  ///
+  /// Inserts a newline for multiline fields ([TextInputAction.newline]);
+  /// otherwise performs the field's input action (done, next, go, search...)
+  /// so `onSubmitted`, focus traversal, and unfocus behave like the system
+  /// keyboard.
   void onEnter() {
-    _inputControl.insertNewline();
+    final action = currentInputAction.value;
+    if (action == null ||
+        action == TextInputAction.newline ||
+        action == TextInputAction.none) {
+      _inputControl.insertNewline();
+      return;
+    }
+    _inputControl.performAction(action);
   }
 
   /// Handle space press.
@@ -148,18 +164,41 @@ class FlutterFloatingKeyboardController {
     }
   }
 
-  /// Toggle keyboard mode between letters and numbers/symbols.
-  void onModeSwitch() {
+  /// Switch keyboard mode.
+  ///
+  /// When [target] is provided (from a mode-switch key), goes directly to
+  /// that mode. Falls back to cycling letters → numbers → symbols → letters.
+  /// Disabled modes (via [FlutterFloatingKeyboardConfig.enableNumberMode] /
+  /// [FlutterFloatingKeyboardConfig.enableSymbolMode]) are skipped.
+  void onModeSwitch([KeyboardMode? target]) {
+    if (target != null) {
+      keyboardMode.value = _resolveModeTarget(target);
+      return;
+    }
     switch (keyboardMode.value) {
       case KeyboardMode.letters:
-        keyboardMode.value = KeyboardMode.numbers;
+        keyboardMode.value = _resolveModeTarget(KeyboardMode.numbers);
         break;
       case KeyboardMode.numbers:
-        keyboardMode.value = KeyboardMode.symbols;
+        keyboardMode.value = _resolveModeTarget(KeyboardMode.symbols);
         break;
       case KeyboardMode.symbols:
         keyboardMode.value = KeyboardMode.letters;
         break;
+    }
+  }
+
+  KeyboardMode _resolveModeTarget(KeyboardMode target) {
+    switch (target) {
+      case KeyboardMode.letters:
+        return KeyboardMode.letters;
+      case KeyboardMode.numbers:
+        if (_config.enableNumberMode) return KeyboardMode.numbers;
+        if (_config.enableSymbolMode) return KeyboardMode.symbols;
+        return KeyboardMode.letters;
+      case KeyboardMode.symbols:
+        if (_config.enableSymbolMode) return KeyboardMode.symbols;
+        return KeyboardMode.letters;
     }
   }
 
@@ -183,6 +222,7 @@ class FlutterFloatingKeyboardController {
     isShiftActive.dispose();
     isCapsLock.dispose();
     currentInputType.dispose();
+    currentInputAction.dispose();
     position.dispose();
   }
 
@@ -202,6 +242,7 @@ class FlutterFloatingKeyboardController {
 
   void _handleConfigChanged(TextInputConfiguration config) {
     currentInputType.value = config.inputType;
+    currentInputAction.value = config.inputAction;
 
     // Auto-switch to number mode for number inputs
     if (config.inputType == TextInputType.number ||

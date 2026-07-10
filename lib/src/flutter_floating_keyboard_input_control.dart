@@ -31,6 +31,9 @@ class FlutterFloatingKeyboardInputControl with TextInputControl {
   /// Current input configuration.
   TextInputConfiguration? _currentConfig;
 
+  /// The currently attached text input client (the focused editable).
+  TextInputClient? _client;
+
   /// Whether a text client is currently attached.
   bool _attached = false;
 
@@ -62,6 +65,7 @@ class FlutterFloatingKeyboardInputControl with TextInputControl {
   @override
   void attach(TextInputClient client, TextInputConfiguration configuration) {
     _attached = true;
+    _client = client;
     _currentConfig = configuration;
     onConfigChanged(configuration);
   }
@@ -69,6 +73,7 @@ class FlutterFloatingKeyboardInputControl with TextInputControl {
   @override
   void detach(TextInputClient client) {
     _attached = false;
+    _client = null;
     onHide();
   }
 
@@ -139,12 +144,14 @@ class FlutterFloatingKeyboardInputControl with TextInputControl {
     insertText('\n');
   }
 
-  /// Perform a text input action (done, next, go, etc.).
+  /// Perform a text input action (done, next, go, etc.) on the attached
+  /// client.
+  ///
+  /// This triggers the same framework behavior as the system keyboard's
+  /// action key: `onSubmitted`/`onEditingComplete` callbacks, focus
+  /// traversal for [TextInputAction.next], and unfocus for
+  /// [TextInputAction.done]-like actions.
   void performAction(TextInputAction action) {
-    // The framework handles this through the attached client
-    // We just need to signal it
-    if (_currentConfig?.inputAction == action) {
-      hide();
-    }
+    _client?.performAction(action);
   }
 }

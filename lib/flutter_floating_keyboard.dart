@@ -33,3 +33,4 @@ export 'src/flutter_floating_keyboard_controller.dart'
 export 'src/flutter_floating_keyboard_overlay.dart'
     show FlutterFloatingKeyboardOverlay;
 export 'src/keyboard_config.dart' show FlutterFloatingKeyboardConfig;
+export 'src/keyboard_theme.dart' show FlutterFloatingKeyboardTheme;

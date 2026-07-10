@@ -1,43 +1,49 @@
 import 'package:flutter/material.dart';
 
+import 'keyboard_theme.dart';
+
 /// Configuration for the FlutterFloatingKeyboard widget appearance and behavior.
 @immutable
 class FlutterFloatingKeyboardConfig {
   const FlutterFloatingKeyboardConfig({
-    this.keyboardHeight = 220.0,
-    this.backgroundColor = const Color(0xF0E8E8E8),
-    this.keyColor = const Color(0xFFFFFFFF),
-    this.specialKeyColor = const Color(0xFFB8B8B8),
-    this.keyTextColor = const Color(0xFF1A1A1A),
-    this.keyBorderRadius = 6.0,
-    this.keySpacing = 4.0,
-    this.rowSpacing = 6.0,
+    this.theme,
+    this.darkTheme,
+    this.keyboardHeight = 240.0,
+    this.keyHeight = 44.0,
+    this.keyBorderRadius = 7.0,
+    this.keySpacing = 5.0,
+    this.rowSpacing = 7.0,
     this.enableHaptics = true,
+    this.enableSound = true,
     this.enableDrag = true,
     this.enableNumberMode = true,
     this.enableSymbolMode = true,
     this.showDragHandle = true,
+    this.showKeyPreview,
+    this.animateShowHide = true,
     this.elevation = 8.0,
-    this.borderRadius = 12.0,
+    this.borderRadius = 14.0,
     this.widthFactor,
     this.maxKeyboardWidth = 700.0,
     this.constrainDragBounds = true,
   });
 
-  /// Total height of the keyboard widget.
+  /// Visual theme used when the ambient brightness is light.
+  ///
+  /// If null, [FlutterFloatingKeyboardTheme.light] is used.
+  final FlutterFloatingKeyboardTheme? theme;
+
+  /// Visual theme used when the ambient brightness is dark.
+  ///
+  /// If null, falls back to [theme] if provided, otherwise
+  /// [FlutterFloatingKeyboardTheme.dark].
+  final FlutterFloatingKeyboardTheme? darkTheme;
+
+  /// Total height of the keyboard widget (used for drag bound clamping).
   final double keyboardHeight;
 
-  /// Background color of the keyboard container.
-  final Color backgroundColor;
-
-  /// Color of regular character keys.
-  final Color keyColor;
-
-  /// Color of special keys (shift, backspace, enter, mode switch).
-  final Color specialKeyColor;
-
-  /// Text color for key labels.
-  final Color keyTextColor;
+  /// Height of individual keys.
+  final double keyHeight;
 
   /// Border radius of individual keys.
   final double keyBorderRadius;
@@ -51,6 +57,9 @@ class FlutterFloatingKeyboardConfig {
   /// Whether to enable haptic feedback on key press.
   final bool enableHaptics;
 
+  /// Whether to play the system click sound on key press.
+  final bool enableSound;
+
   /// Whether the keyboard can be dragged to reposition.
   final bool enableDrag;
 
@@ -62,6 +71,16 @@ class FlutterFloatingKeyboardConfig {
 
   /// Whether to show the drag handle at the top.
   final bool showDragHandle;
+
+  /// Whether to show a magnified character preview bubble on key press.
+  ///
+  /// When null (default), the preview is shown adaptively: enabled on
+  /// narrow screens (< 600dp, phones) and disabled on wider screens
+  /// (tablets), matching native platform behavior.
+  final bool? showKeyPreview;
+
+  /// Whether to animate the keyboard sliding in/out on show/hide.
+  final bool animateShowHide;
 
   /// Elevation/shadow of the keyboard container.
   final double elevation;
@@ -83,6 +102,14 @@ class FlutterFloatingKeyboardConfig {
   /// When `true` (default), the keyboard cannot be dragged off screen.
   /// Set to `false` to allow unrestricted dragging.
   final bool constrainDragBounds;
+
+  /// Resolves the effective theme for the given ambient [brightness].
+  FlutterFloatingKeyboardTheme resolveTheme(Brightness brightness) {
+    if (brightness == Brightness.dark) {
+      return darkTheme ?? theme ?? FlutterFloatingKeyboardTheme.dark;
+    }
+    return theme ?? FlutterFloatingKeyboardTheme.light;
+  }
 
   /// Computes the responsive keyboard width based on available space.
   ///
@@ -109,19 +136,21 @@ class FlutterFloatingKeyboardConfig {
 
   /// Create a copy with modified values.
   FlutterFloatingKeyboardConfig copyWith({
+    FlutterFloatingKeyboardTheme? theme,
+    FlutterFloatingKeyboardTheme? darkTheme,
     double? keyboardHeight,
-    Color? backgroundColor,
-    Color? keyColor,
-    Color? specialKeyColor,
-    Color? keyTextColor,
+    double? keyHeight,
     double? keyBorderRadius,
     double? keySpacing,
     double? rowSpacing,
     bool? enableHaptics,
+    bool? enableSound,
     bool? enableDrag,
     bool? enableNumberMode,
     bool? enableSymbolMode,
     bool? showDragHandle,
+    bool? showKeyPreview,
+    bool? animateShowHide,
     double? elevation,
     double? borderRadius,
     double? widthFactor,
@@ -129,19 +158,21 @@ class FlutterFloatingKeyboardConfig {
     bool? constrainDragBounds,
   }) {
     return FlutterFloatingKeyboardConfig(
+      theme: theme ?? this.theme,
+      darkTheme: darkTheme ?? this.darkTheme,
       keyboardHeight: keyboardHeight ?? this.keyboardHeight,
-      backgroundColor: backgroundColor ?? this.backgroundColor,
-      keyColor: keyColor ?? this.keyColor,
-      specialKeyColor: specialKeyColor ?? this.specialKeyColor,
-      keyTextColor: keyTextColor ?? this.keyTextColor,
+      keyHeight: keyHeight ?? this.keyHeight,
       keyBorderRadius: keyBorderRadius ?? this.keyBorderRadius,
       keySpacing: keySpacing ?? this.keySpacing,
       rowSpacing: rowSpacing ?? this.rowSpacing,
       enableHaptics: enableHaptics ?? this.enableHaptics,
+      enableSound: enableSound ?? this.enableSound,
       enableDrag: enableDrag ?? this.enableDrag,
       enableNumberMode: enableNumberMode ?? this.enableNumberMode,
       enableSymbolMode: enableSymbolMode ?? this.enableSymbolMode,
       showDragHandle: showDragHandle ?? this.showDragHandle,
+      showKeyPreview: showKeyPreview ?? this.showKeyPreview,
+      animateShowHide: animateShowHide ?? this.animateShowHide,
       elevation: elevation ?? this.elevation,
       borderRadius: borderRadius ?? this.borderRadius,
       widthFactor: widthFactor ?? this.widthFactor,

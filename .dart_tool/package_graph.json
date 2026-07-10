@@ -5,7 +5,7 @@
   "packages": [
     {
       "name": "flutter_floating_keyboard",
-      "version": "0.2.2",
+      "version": "0.3.0",
       "dependencies": [
         "flutter"
       ],
@@ -178,7 +178,7 @@
     },
     {
       "name": "meta",
-      "version": "1.18.0",
+      "version": "1.17.0",
       "dependencies": []
     },
     {
@@ -322,7 +322,7 @@
     },
     {
       "name": "test_api",
-      "version": "0.7.11",
+      "version": "0.7.10",
       "dependencies": [
         "async",
         "boolean_selector",

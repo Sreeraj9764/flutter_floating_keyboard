@@ -1,6 +1,9 @@
 /// Defines the QWERTY keyboard layout data for all modes.
 library;
 
+/// The mode of the keyboard layout.
+enum KeyboardMode { letters, numbers, symbols }
+
 /// The type of action a key performs.
 enum KeyAction {
   character,
@@ -19,6 +22,7 @@ class KeyData {
     this.display,
     this.flex = 1,
     this.action = KeyAction.character,
+    this.modeTarget,
   });
 
   /// The value to insert (for character keys).
@@ -32,6 +36,9 @@ class KeyData {
 
   /// The action this key performs.
   final KeyAction action;
+
+  /// The mode this key switches to (for [KeyAction.modeSwitch] keys).
+  final KeyboardMode? modeTarget;
 
   /// The display text shown on the key.
   String get label => display ?? value;
@@ -83,7 +90,13 @@ class KeyboardLayout {
     ],
     // Row 4 (bottom)
     [
-      KeyData(value: '', display: '123', flex: 2, action: KeyAction.modeSwitch),
+      KeyData(
+        value: '',
+        display: '123',
+        flex: 2,
+        action: KeyAction.modeSwitch,
+        modeTarget: KeyboardMode.numbers,
+      ),
       KeyData(value: ','),
       KeyData(value: ' ', display: 'space', flex: 5, action: KeyAction.space),
       KeyData(value: '.'),
@@ -123,7 +136,13 @@ class KeyboardLayout {
     ],
     // Row 3
     [
-      KeyData(value: '', display: '#+=', flex: 2, action: KeyAction.modeSwitch),
+      KeyData(
+        value: '',
+        display: '#+=',
+        flex: 2,
+        action: KeyAction.modeSwitch,
+        modeTarget: KeyboardMode.symbols,
+      ),
       KeyData(value: '.'),
       KeyData(value: ','),
       KeyData(value: '?'),
@@ -134,7 +153,13 @@ class KeyboardLayout {
     ],
     // Row 4 (bottom)
     [
-      KeyData(value: '', display: 'ABC', flex: 2, action: KeyAction.modeSwitch),
+      KeyData(
+        value: '',
+        display: 'ABC',
+        flex: 2,
+        action: KeyAction.modeSwitch,
+        modeTarget: KeyboardMode.letters,
+      ),
       KeyData(value: ','),
       KeyData(value: ' ', display: 'space', flex: 5, action: KeyAction.space),
       KeyData(value: '.'),
@@ -174,7 +199,13 @@ class KeyboardLayout {
     ],
     // Row 3
     [
-      KeyData(value: '', display: '123', flex: 2, action: KeyAction.modeSwitch),
+      KeyData(
+        value: '',
+        display: '123',
+        flex: 2,
+        action: KeyAction.modeSwitch,
+        modeTarget: KeyboardMode.numbers,
+      ),
       KeyData(value: '.'),
       KeyData(value: ','),
       KeyData(value: '?'),
@@ -185,7 +216,13 @@ class KeyboardLayout {
     ],
     // Row 4 (bottom)
     [
-      KeyData(value: '', display: 'ABC', flex: 2, action: KeyAction.modeSwitch),
+      KeyData(
+        value: '',
+        display: 'ABC',
+        flex: 2,
+        action: KeyAction.modeSwitch,
+        modeTarget: KeyboardMode.letters,
+      ),
       KeyData(value: ','),
       KeyData(value: ' ', display: 'space', flex: 5, action: KeyAction.space),
       KeyData(value: '.'),
